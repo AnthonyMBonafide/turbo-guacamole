@@ -48,5 +48,11 @@ Right now only `Client Server` is being introduced and maintained
 
 # TODOs
 
-[ ] Create initial CI jobs
-[ ] Create initial project layout
+[x] Create initial CI jobs
+[x] Create initial project layout
+[ ] Create initial cache struct with functionality
+[ ] Add Time To Live(TTL) to cache entries
+[ ] Add connectivity to cache
+[ ] Add messaging communication
+[ ] Add functionality to dump data which will help with verifying the cache
+    contents over time
