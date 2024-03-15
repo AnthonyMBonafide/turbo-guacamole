@@ -77,8 +77,10 @@ impl<T> Entry<T> {
 
     fn get_value(&self) -> Option<&T> {
         if !self.is_expired() {
+            // TODO: Remove here since it is is expired
             return Some(&self.value);
         }
+
         None
     }
 }
