@@ -10,16 +10,14 @@ path = "src/lib.rs"
 
 [[bin]]
 name = "turbo-guacamole"
-path = "src/bin/sever.rs"
+path = "src/bin/server.rs"
 
 [dependencies]
 dashmap = "5.5.3"
 bytes = { version = "1.5.0", features = ["serde"] }
-tokio = { version = "1.36.0", features = [
-  "macros",
-  "rt-multi-thread",
-  "rt",
-  "net",
-  "sync",
-  "signal",
-] }
+tokio = { version = "1.36.0", features = ["macros", "io-util", "rt", "net"] }
+# using mini-redis for now for the Frames functionality which will allow us to 
+# send requests and responses effeciently. This inturn leverages the Redis wire
+# protocol.
+mini-redis = "0.4.1"
+tokio-tungstenite = "*"
