@@ -3,7 +3,7 @@ const DEFAULT_CAPACITY: usize = 10;
 const DEFAULT_TTL: u128 = 0;
 
 #[derive(Debug, Clone)]
-struct Cache<T> {
+pub struct Cache<T> {
     data: HashMap<String, Entry<T>>,
 }
 
@@ -84,7 +84,12 @@ impl<T> Entry<T> {
         None
     }
 }
-
+#[derive(Debug)]
+enum CacheError {
+    KeyNotFound,
+    CapacityReached,
+    InsertionFailed,
+}
 #[cfg(test)]
 mod tests {
     use super::*;

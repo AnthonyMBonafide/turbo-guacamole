@@ -1,58 +1,83 @@
+# Turbo-Guacamole: Distributed In-Memory Cache Library**
 
-# turbo-guacamole
+Welcome to Turbo-Guacamole, a high-performance distributed in-memory cache
+library written in Rust. This library enables you to build scalable and
+efficient caching solutions for your applications, with the flexibility to
+operate in both client-server and peer-to-peer modes.
 
-In-memory distributed cache
+## Overview
 
-# Overview
+Turbo-Guacamole is designed to address the challenges of data consistency and
+scalability in distributed systems. By providing a shared cache that can be
+accessed by multiple instances, this library helps prevent inconsistencies and
+incorrect data from arising when different parts of your system access the same
+data.
 
-turbo-guacamole(turbo-guac, or t-guac) is a set of tools which allow
-distributed applications to cache data locally(i.e. in-memory) and that data be
-in sync with other applications that use the same data. One use case is
-a distributed micro-service application with more than one instance running
-which needs to utilized cached data. If each instance has its own localized
-cache with no knowledge of each other the caches can get out of sync and contain
-incorrect data. turbo-guacamole allows all instances to be able to use data close
-to the application for fast access and have the data be correct.
+## Architecture
 
-# Architecture
+The Turbo-Guacamole architecture consists of two primary components:
 
-There are two components in the architecture:
-
-1. Client - library which keeps the cached data local to the running process
-allowing it to be accessed and ensuring the data is consistent with other
-associated caches
-
-2. Server - a long running process which manages the data within its own
-process. This serves as the source of truth to the data and ensures that
-clients which are associated have the same data.
+1. **Client**: A Rust library that provides a local in-memory cache for each
+   instance, allowing it to store and retrieve data efficiently.
+2. **Server**: A long-running process that manages the shared cache, ensuring
+   consistency across all connected clients.
 
 ```mermaid
-flowchart TD
-    Client-A
-    Client-B
-    Server
-    Client-A <--Data Updates--> Server
-    Client-B <--Data Updates--> Server
+graph LR
+    Client --connect--> Server
+    Server --> update--> Cache
+    Cache --> sync--> Clients
 ```
 
-***Note***
+## Modes
 
-Future iterations intend to allow clients to run in two different modes:
+Turbo-Guacamole currently supports two modes:
 
-1. `Client Server` - A server is required and manages the data. Each caches
-connects and communicates with a server for changes to the underlying data.
+1. **Client-Server**: This mode requires a central server to manage the shared
+   cache, and each client connects to it for updates.
+2. **Peer-to-Peer (Ad-Hoc)**: In this mode, clients connect directly to each
+   other, without the need for a central server.
 
-2. `Adhoc` - Clients connect to each other and data is managed without a server
+## Features
 
-Right now only `Client Server` is being introduced and maintained
+* **In-Memory Cache**: Turbo-Guacamole provides a fast in-memory cache for
+storing and retrieving data.
 
-# TODOs
+* **Consistency**: The library ensures that all connected clients have access
+to the same consistent data.
 
-[x] Create initial CI jobs
-[x] Create initial project layout
-[ ] Create initial cache struct with functionality
-[ ] Add Time To Live(TTL) to cache entries
-[ ] Add connectivity to cache
-[ ] Add messaging communication
-[ ] Add functionality to dump data which will help with verifying the cache
-    contents over time
+* **Scalability**: Turbo-Guacamole is designed to handle large numbers of
+concurrent connections and high volumes of data.
+
+## Roadmap
+
+Here are some key milestones on our development roadmap:
+
+1. **Initial Release**: Implement the basic client-server architecture,
+   including cache functionality and connection establishment.
+
+2. **Ad-Hoc Mode**: Add support for peer-to-peer communication, allowing
+   clients to connect directly to each other without a central server.
+
+3. **TTL (Time-To-Live)**: Introduce Time-To-Live expiration mechanisms for
+   cache entries, ensuring that stale data is automatically removed.
+
+4. **Messaging**: Implement messaging protocol for client-server and ad-hoc
+   modes, enabling efficient communication between nodes.
+
+## Contributing
+
+We welcome contributions to Turbo-Guacamole! If you're interested in helping
+with development or reporting issues, please follow our [contribution guidelines](CONTRIBUTING.md).
+
+## Licensing
+
+Turbo-Guacamole is licensed under the Apache License 2.0 (Apache-2.0). See the
+included `LICENSE` file for details.
+
+## Contact Us
+
+If you have questions or need assistance with Turbo-Guacamole, please reach out
+to us at [support@turbo-guacamole.com](mailto:support@turbo-guacamole.com).
+
+Thank you for considering Turbo-Guacamole!
